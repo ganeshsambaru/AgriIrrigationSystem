@@ -22,6 +22,8 @@ namespace AgriIrrigationSystem.Web.Models.ViewModels
 
         public int CropCount { get; set; } = 0;
 
+        public DateTime CreatedAt { get; set; }
+
         // Computed property for displaying size with units
         public string SizeWithUnit => $"{Size} hectares";
     }

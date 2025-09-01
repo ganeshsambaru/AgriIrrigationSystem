@@ -1,0 +1,29 @@
+﻿@model AgriIrrigationSystem.Web.Models.ViewModels.FarmViewModel
+
+@{
+    ViewData["Title"] = "Farm Details";
+}
+
+<h2>Farm Details</h2>
+
+<div class="card shadow-sm p-3 mb-3">
+    <div class="card-body">
+        <h4 class="card-title">@Model.Name</h4>
+        <p><strong>Location:</strong> @Model.Location</p>
+        <p><strong>Size:</strong> @Model.SizeWithUnit</p>
+        <p><strong>Owner:</strong> @Model.OwnerName</p>
+        <p><strong>Crop Count:</strong> @Model.CropCount</p>
+        <p><strong>Created At:</strong>@Model.CreatedAt</p>
+    </div>
+</div>
+
+<a asp-action="Index" class="btn btn-secondary me-2">
+    <i class="bi bi-arrow-left"></i> Back
+</a>
+<a asp-action="Edit" asp-route-id="@Model.Id" asp-route-returnUrl="@Url.Action("Details", "Farm", new { id = Model.Id })" class="btn btn-warning">
+    <i class="bi bi-pencil-square"></i> Edit
+</a>
+<a asp-action="Delete" asp-route-id="@Model.Id" asp-route-returnUrl="@Url.Action("Details", new { id = Model.Id })" class="btn btn-danger">
+    <i class="bi bi-trash"></i> Delete
+</a>
+

@@ -59,10 +59,118 @@ namespace AgriIrrigationSystem.Web.Controllers
                 };
 
                 await _farmService.AddFarmAsync(farm);
+                TempData["SuccessMessage"] = "Farm created successfully!";
                 return RedirectToAction(nameof(Index));
             }
 
             return View(model);
         }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            var farm = await _farmService.GetFarmByIdAsync(id);
+            if (farm == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new FarmViewModel
+            {
+                Id = farm.Id,
+                Name = farm.Name,
+                Location = farm.Location,
+                Size = farm.Size,
+                OwnerName = farm.OwnerName,
+                CropCount = 0 // Placeholder, can fetch actual count later
+            };
+
+            return View(viewModel);
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id, string? returnUrl = null)
+        {
+            var farm = await _farmService.GetFarmByIdAsync(id);
+            if (farm == null)
+                return NotFound();
+
+            var viewModel = new FarmViewModel
+            {
+                Id = farm.Id,
+                Name = farm.Name,
+                Location = farm.Location,
+                Size = farm.Size,
+                OwnerName = farm.OwnerName,
+                CropCount = 0
+            };
+
+            ViewBag.ReturnUrl = returnUrl ?? Url.Action("Index", "Farm");
+            return View(viewModel);
+        }
+
+
+        [HttpPost, ActionName("Edit")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditConfirmed(FarmViewModel model, string? returnUrl = null)
+        {
+            if (!ModelState.IsValid)
+                return View(model);
+
+            var farm = await _farmService.GetFarmByIdAsync(model.Id);
+            if (farm == null)
+                return NotFound();
+
+            farm.Name = model.Name;
+            farm.Location = model.Location;
+            farm.Size = model.Size;
+            farm.OwnerName = model.OwnerName;
+
+            await _farmService.UpdateFarmAsync(farm);
+            TempData["SuccessMessage"] = "Farm updated successfully!";
+
+            return !string.IsNullOrEmpty(returnUrl)
+                ? Redirect(returnUrl)
+                : RedirectToAction(nameof(Index));
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(int id, string? returnUrl = null)
+        {
+            var farm = await _farmService.GetFarmByIdAsync(id);
+            if (farm == null)
+            {
+                return NotFound();
+            }
+
+            var viewModel = new FarmViewModel
+            {
+                Id = farm.Id,
+                Name = farm.Name,
+                Location = farm.Location,
+                Size = farm.Size,
+                OwnerName = farm.OwnerName,
+                CropCount = 0
+            };
+
+            // Pass return URL to view
+            ViewBag.ReturnUrl = string.IsNullOrEmpty(returnUrl)
+                ? Url.Action("Index")
+                : returnUrl;
+
+            return View(viewModel);
+        }
+
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            await _farmService.DeleteFarmAsync(id);
+            TempData["SuccessMessage"] = "Farm deleted successfully!";
+            return RedirectToAction(nameof(Index));
+        }
+
+
     }
 }

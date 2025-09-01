@@ -1,0 +1,54 @@
+﻿@model AgriIrrigationSystem.Web.Models.ViewModels.FarmViewModel
+
+@{
+    ViewData["Title"] = "Edit Farm";
+}
+
+<h2>Edit Farm</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" asp-for="Id" />
+    <input type="hidden" name="returnUrl" value="@ViewBag.ReturnUrl" />
+
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Location"></label>
+        <input asp-for="Location" class="form-control" />
+        <span asp-validation-for="Location" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Size"></label>
+        <input asp-for="Size" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="Size" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="OwnerName"></label>
+        <input asp-for="OwnerName" class="form-control" />
+        <span asp-validation-for="OwnerName" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Created At</label>
+        <input class="form-control" value="@Model.CreatedAt.ToString("yyyy-MM-dd HH:mm")" readonly />
+    </div>
+
+
+    <button type="submit" class="btn btn-primary mt-2">
+        <i class="bi bi-save"></i> Save Changes
+    </button>
+
+    <a href="@ViewBag.ReturnUrl" class="btn btn-secondary mt-2">
+        <i class="bi bi-arrow-left"></i> Cancel
+    </a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
