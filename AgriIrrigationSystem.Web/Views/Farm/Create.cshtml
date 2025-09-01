@@ -1,0 +1,40 @@
+﻿@model AgriIrrigationSystem.Web.Models.ViewModels.FarmViewModel
+
+@{
+    ViewData["Title"] = "Create Farm";
+}
+
+<h2>Create New Farm</h2>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="Name"></label>
+        <input asp-for="Name" class="form-control" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Location"></label>
+        <input asp-for="Location" class="form-control" />
+        <span asp-validation-for="Location" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="Size"></label>
+        <input asp-for="Size" class="form-control" type="number" step="0.01" />
+        <span asp-validation-for="Size" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="OwnerName"></label>
+        <input asp-for="OwnerName" class="form-control" />
+        <span asp-validation-for="OwnerName" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-2">Save</button>
+    <a asp-action="Index" class="btn btn-secondary mt-2">Cancel</a>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
